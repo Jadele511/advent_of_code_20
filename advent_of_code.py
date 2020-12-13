@@ -67,3 +67,29 @@ def valid_password_2(file2):
 
     return valid_pw_count
 
+
+
+
+file3 = open("aoc_d3.txt")
+
+def map(file3):
+    full_map = []
+    for line in file3:
+        full_map.append(line.rstrip())
+    return full_map
+    
+tree_map = map(file3)
+
+def count_tree(tree_map):
+    count = 0
+    n = len(tree_map)
+    m = len(tree_map[0])
+    for i in range(0, n):
+        if i > 0:
+            pos = tree_map[i][(i * 3) % m]
+            if pos == '#':
+                count += 1
+            if i == n - 1:       
+                return count
+
+print(count_tree(tree_map))
