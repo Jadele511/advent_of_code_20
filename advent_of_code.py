@@ -96,12 +96,12 @@ def count_tree(tree_map, right, down):
             count += 1
         i += down
         j += right
-        if i >= n - down:
-            return count
+        
+    return count
 
 
     # for i in range(down, n, down): 
-    #     pos = tree_map[i][int(i * right / down) % m]
+        # pos = tree_map[i][int(i * right / down) % m]
         
     #     if pos == '#':
     #         count += 1
@@ -113,9 +113,9 @@ count_31 = count_tree(tree_map, 3, 1)
 count_51 = count_tree(tree_map, 5, 1)
 count_71 = count_tree(tree_map, 7, 1)
 count_12 = count_tree(tree_map, 1, 2)
-print(count_11, count_31, count_51,count_71, count_12)
-
 product = count_11 * count_31 * count_51 * count_71 * count_12
     
 print(product)
+
+
 
