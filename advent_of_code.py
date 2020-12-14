@@ -27,7 +27,7 @@ def sum_three_2020(file1):
             if other_num in nums_set:
                 return nums[i] * nums[j] * other_num    
 
-
+######## Day 2 #############
 
 file2 = open("aoc_d2.txt")
 
@@ -68,28 +68,54 @@ def valid_password_2(file2):
     return valid_pw_count
 
 
-
+########## DAY 3 ##############
 
 file3 = open("aoc_d3.txt")
 
 def map(file3):
     full_map = []
     for line in file3:
-        full_map.append(line.rstrip())
+        full_map.append(list(line.rstrip()))
     return full_map
-    
+
 tree_map = map(file3)
 
-def count_tree(tree_map):
+
+
+def count_tree(tree_map, right, down):
     count = 0
+
     n = len(tree_map)
     m = len(tree_map[0])
-    for i in range(0, n):
-        if i > 0:
-            pos = tree_map[i][(i * 3) % m]
-            if pos == '#':
-                count += 1
-            if i == n - 1:       
-                return count
 
-print(count_tree(tree_map))
+    i = down
+    j = right
+    while i <= n - down:
+        pos = tree_map[i][j % m]
+        if pos == '#':
+            count += 1
+        i += down
+        j += right
+        if i >= n - down:
+            return count
+
+
+    # for i in range(down, n, down): 
+    #     pos = tree_map[i][int(i * right / down) % m]
+        
+    #     if pos == '#':
+    #         count += 1
+    #     if i >= n - down:
+    #         return count   
+
+count_11 = count_tree(tree_map, 1, 1)
+count_31 = count_tree(tree_map, 3, 1)
+count_51 = count_tree(tree_map, 5, 1)
+count_71 = count_tree(tree_map, 7, 1)
+count_12 = count_tree(tree_map, 1, 2)
+print(count_11, count_31, count_51,count_71, count_12)
+
+product = count_11 * count_31 * count_51 * count_71 * count_12
+    
+print(product)
+
