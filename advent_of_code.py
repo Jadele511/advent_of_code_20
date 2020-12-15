@@ -115,7 +115,49 @@ count_71 = count_tree(tree_map, 7, 1)
 count_12 = count_tree(tree_map, 1, 2)
 product = count_11 * count_31 * count_51 * count_71 * count_12
     
-print(product)
+# print(product)
 
 
 
+
+
+####### DAY 4 ############
+
+# with open("d4.txt", "a") as file4:
+#   file4.write("\n")
+#   file4.close()
+file4 = open("d4.txt")
+
+def batch_files(file4):
+    batches = [] 
+    batch = ''
+    for line in file4:
+        #check if line is a new line
+        if line != '\n': 
+            batch += ' ' + line.rstrip()
+        else:
+            batches.append(batch)
+            batch = ''    
+
+    return batches
+
+
+batches = batch_files(file4)
+print(batches)
+
+def valid_passport(batches):
+    count = 0
+    for i in range(len(batches)):
+        batch_dict = {}
+        for pair in batches[i].split(' '):
+            if pair != '':
+                key, value  = pair.split(':')
+                batch_dict[key] = value
+        batches[i] = batch_dict
+        key_set = set(['byr','iyr', 'eyr','hgt', 'hcl', 'ecl', 'pid'])
+        if key_set.issubset(batches[i].keys()):
+            count += 1
+    print(batches)
+
+    return count
+print(valid_passport(batches))
