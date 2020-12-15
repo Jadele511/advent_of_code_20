@@ -141,23 +141,47 @@ def batch_files(file4):
 
     return batches
 
-
 batches = batch_files(file4)
-print(batches)
+
+def valid_info(batch):
+    byr = len(batch['byr']) == 4 and int(batch['byr']) >= 1920 and int(batch['byr']) <= 2002
+    iyr = len(batch['iyr']) == 4 and int(batch['iyr']) >= 2010 and int(batch['iyr']) <= 2020
+    eyr = len(batch['eyr']) == 4 and int(batch['eyr']) >= 2020 and int(batch['eyr']) <= 2030
+
+    hgt = batch['hgt'][:-2]
+    if len(batch['hgt'][-2:]) == 2 and batch['hgt'][-2:] == 'cm':
+        hgt = len(hgt) == 3 and int(hgt) >= 150 and int(hgt) <= 193
+    else:
+        hgt = len(hgt) == 2 and int(hgt) >= 59 and int(hgt) <= 76
+
+    #hair color
+    chars_nums = [chr(x) for x in range(ord('a'), ord('f') + 1)]
+    chars_nums += [str(x) for x in range(10)]
+    chars_nums = set(chars_nums)
+    hcl = batch['hcl'][0] == '#' and len(batch['hcl'][1:]) == 6 and all(ch in chars_nums for ch in batch['hcl'][1:])
+
+    ecl_codes = set(['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']) 
+    ecl = batch['ecl'] in ecl_codes
+
+    pid = len(batch['pid']) == 9 and int(batch['pid']) >= 1 
+
+    return all([byr,iyr, eyr,hgt, hcl, ecl, pid])
+
 
 def valid_passport(batches):
     count = 0
     for i in range(len(batches)):
+        batch = batches[i]
         batch_dict = {}
-        for pair in batches[i].split(' '):
+        for pair in batch.split(' '):
             if pair != '':
                 key, value  = pair.split(':')
                 batch_dict[key] = value
         batches[i] = batch_dict
         key_set = set(['byr','iyr', 'eyr','hgt', 'hcl', 'ecl', 'pid'])
-        if key_set.issubset(batches[i].keys()):
+        if key_set.issubset(batches[i].keys()) and valid_info(batches[i]):
             count += 1
-    print(batches)
-
     return count
-print(valid_passport(batches))
+
+# print(valid_passport(batches))
+
