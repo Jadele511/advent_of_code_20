@@ -8,8 +8,8 @@ def pass_list(file):
 
 passes = pass_list(file)
 
-def highest_id(passes):
-    highest = 0
+def ids(passes):
+    id_list = []
     for boarding_pass in passes:
         start = 0
         end = 127
@@ -29,9 +29,23 @@ def highest_id(passes):
             else:
                 start_col = start_col + int((end_col - start_col)/2) + 1
         col = start_col
-        seat_id = row * 8 + col
-        highest = max(highest, seat_id)
+        
+        id_list.append(row * 8 + col)
     
-    return highest
+    return id_list
 
-print(highest_id(passes))
+id_list = ids(passes)
+
+# print(max(id_list))
+
+
+def pass_id(id_list):
+    id_list.sort()
+    full_list = [x for x in range(id_list[0], id_list[-1]+1)]
+    id_list = set(id_list)
+    
+    for id_num in full_list:
+        if id_num not in id_list:
+            return id_num
+
+print(pass_id(id_list))
